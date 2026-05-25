@@ -1,0 +1,8 @@
+# Internal agent instructions (moved to private/)
+AGENTS.md
+
+# Private deployment config, certs, scripts
+private/
+
+# OS junk
+.DS_Store

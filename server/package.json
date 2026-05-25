@@ -1,0 +1,31 @@
+{
+  "name": "@dsl-crypt-upload/server",
+  "private": true,
+  "type": "module",
+
+  "scripts": {
+    "dev": "tsx watch src/main-dev.ts",
+    "build": "tsc",
+    "start": "node dist/main-production.js",
+    "start:dev": "tsx src/main-dev.ts",
+    "start:prod": "tsx src/main-production.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@esfx/async": "^1.0.0",
+    "@hono/node-server": "^1.19.14",
+    "@types/better-sqlite3": "^7.6.13",
+    "better-sqlite3": "^12.10.0",
+    "denque": "^2.1.0",
+    "effect": "^3.21.2",
+    "hono": "^4.12.23",
+    "http-status-ts": "^2.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3",
+    "vitest": "^4.1.8"
+  }
+}
