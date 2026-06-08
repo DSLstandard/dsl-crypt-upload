@@ -1,6 +1,5 @@
 import { DownloadSection } from "./components/download-section"
 import { UploadSection } from "./components/upload-section"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 
 export function FrontPage() {
   return (
