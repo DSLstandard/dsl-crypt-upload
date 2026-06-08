@@ -1,16 +1,15 @@
-import { randomInt } from "./random.js"
+import crypto from "crypto"
 
 const POOL = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
-export function generateAlnumChar(): string {
-  const i = randomInt(0, POOL.length)
-  return POOL[i]
+export function securelyGenerateAlnumChar(): string {
+  return POOL[crypto.randomInt(0, POOL.length)]
 }
 
-export function generateAlnumString(len: number): string {
+export function securelyGenerateAlnumString(len: number): string {
   let buf = ""
   for (let i = 0; i < len; i++) {
-    buf += generateAlnumChar()
+    buf += securelyGenerateAlnumChar()
   }
   return buf
 }

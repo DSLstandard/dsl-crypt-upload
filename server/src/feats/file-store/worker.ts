@@ -3,7 +3,7 @@ import { safeJoinPath } from "../utils/safe-pathlib.js"
 import { ERROR, INFO, type LogAction, type RichMessage } from "../utils/colog.js"
 import { Db } from "./db.js"
 import fs from "fs"
-import { generateAlnumString } from "../utils/alnum.js"
+import { securelyGenerateAlnumString } from "../utils/alnum.js"
 import { FILE_ID_LENGTH, UPLOAD_SESSION_ID_LENGTH, type FileId, type UploadSessionId } from "./id-util.js"
 import { Option } from "effect"
 
@@ -115,11 +115,11 @@ export type WorkerCmd =
   | CmdShutdownMessage
 
 function generateUploadSessionId(): UploadSessionId {
-  return generateAlnumString(UPLOAD_SESSION_ID_LENGTH)
+  return securelyGenerateAlnumString(UPLOAD_SESSION_ID_LENGTH)
 }
 
 function generateFileId(): FileId {
-  return generateAlnumString(FILE_ID_LENGTH)
+  return securelyGenerateAlnumString(FILE_ID_LENGTH)
 }
 
 function deriveUploadingPath(uploadingDir: string, sessId: UploadSessionId): string {
