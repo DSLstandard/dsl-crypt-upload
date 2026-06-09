@@ -259,12 +259,25 @@ export function UploadSection() {
         return (
           <div className="space-y-3">
             <div className="border border-green-300 bg-green-50 p-3 text-sm">
-              <button
-                onClick={() => { navigator.clipboard.writeText(state.url); toast.success("Copied!") }}
-                className="font-medium text-green-800 underline underline-offset-2 cursor-pointer"
-              >
-                Upload complete! (Click to copy URL)
-              </button>
+              <div className="font-medium text-green-800">
+                Upload complete!
+                <span
+                  onClick={() => {
+                    navigator.clipboard.writeText(state.url); toast.success("Copied!")
+                  }}
+                  className="underline underline-offset-2 cursor-pointer ml-1"
+                >(Click to copy URL)</span>
+                <span
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator.share({ url: state.url })
+                    } else {
+                      toast.error("Share not supported on this browser/device")
+                    }
+                  }}
+                  className="underline underline-offset-2 cursor-pointer ml-1"
+                >(Click to share)</span>
+              </div>
               <p className="mt-1 min-w-0 break-all font-mono text-green-700">{state.url}</p>
             </div>
 
