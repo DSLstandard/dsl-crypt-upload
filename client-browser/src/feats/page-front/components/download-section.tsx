@@ -7,7 +7,9 @@ import { SHA256_HASH_NBYTES } from "../../utils/stream-sha256-hasher"
 import { downloadFile, type DownloadParams, type DownloadResult } from "../utils/download-file"
 import { Spinner } from "@/components/ui/spinner"
 import { CommandBlock } from "./command-block"
-import { DownloadIcon, TriangleAlert } from "lucide-react"
+import { QrCodeDialog } from "../../ui-components/qr-code-dialog"
+import { Button } from "@/components/ui/button"
+import { DownloadIcon, QrCode, X, TriangleAlert } from "lucide-react"
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
 import { downloadBashCmds } from "../utils/download-bash-cmds"
 
@@ -88,14 +90,28 @@ export function DownloadSection() {
     <section className="px-4">
       <h2 className="mb-4 font-bold">Download</h2>
 
-      <div className="mb-2">
+      <div className="mb-2 flex items-center gap-1">
         <input
           type="text"
           placeholder="Paste shareable URL"
           value={input}
           onChange={(e) => { setInput(e.target.value); setResult(null) }}
-          className="min-w-0 w-full flex-1 border border-gray-300 px-3 py-2 text-sm outline-none focus:border-sky-500"
+          className="min-w-0 flex-1 border border-gray-300 px-3 py-2 text-sm outline-none focus:border-sky-500"
         />
+        <QrCodeDialog url={input.trim()}>
+          <Button disabled={params === null} variant="outline" size="icon" className="shrink-0 border-gray-300">
+            <QrCode className="size-4" />
+          </Button>
+        </QrCodeDialog>
+        <Button
+          disabled={input.length === 0}
+          variant="outline"
+          size="icon"
+          className="shrink-0 border-gray-300"
+          onClick={() => { setInput(""); setResult(null) }}
+        >
+          <X className="size-4" />
+        </Button>
       </div>
 
       {parsed && !parsed.ok && (

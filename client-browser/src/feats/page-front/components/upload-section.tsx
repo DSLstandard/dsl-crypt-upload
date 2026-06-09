@@ -1,5 +1,5 @@
 import { useRef, useState } from "react"
-import { FileUp, Server } from "lucide-react"
+import { FileUp, Server, Copy, Share2, QrCode } from "lucide-react"
 import { toast } from "sonner"
 import { useQuery } from "@tanstack/react-query"
 import { Progress } from "@/components/ui/progress"
@@ -8,6 +8,8 @@ import { generateChaCha20Key } from "../../utils/stream-chacha20-cipher"
 import { uint8ArrayToHex } from "../../utils/hex"
 import { uploadFile } from "../utils/upload-file"
 import { CommandBlock } from "./command-block"
+import { QrCodeDialog } from "../../ui-components/qr-code-dialog"
+import { Button } from "@/components/ui/button"
 import { VITE_DEFAULT_API_URL } from "../../env-config/env-config"
 import { downloadBashCmds } from "../utils/download-bash-cmds"
 import { serverSettingsInfo } from "../utils/server-settings-api"
@@ -261,13 +263,20 @@ export function UploadSection() {
             <div className="border border-green-300 bg-green-50 p-3 text-sm">
               <div className="font-medium text-green-800">
                 Upload complete!
-                <span
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={() => {
                     navigator.clipboard.writeText(state.url); toast.success("Copied!")
                   }}
-                  className="underline underline-offset-2 cursor-pointer ml-1"
-                >(Click to copy URL)</span>
-                <span
+                  className="size-6"
+                  title="Copy URL"
+                >
+                  <Copy className="size-3.5" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={() => {
                     if (navigator.share) {
                       navigator.share({ url: state.url })
@@ -275,8 +284,16 @@ export function UploadSection() {
                       toast.error("Share not supported on this browser/device")
                     }
                   }}
-                  className="underline underline-offset-2 cursor-pointer ml-1"
-                >(Click to share)</span>
+                  className="size-6"
+                  title="Share"
+                >
+                  <Share2 className="size-3.5" />
+                </Button>
+                <QrCodeDialog url={state.url}>
+                  <Button variant="ghost" size="icon" className="size-6" title="Show QR Code">
+                    <QrCode className="size-3.5" />
+                  </Button>
+                </QrCodeDialog>
               </div>
               <p className="mt-1 min-w-0 break-all font-mono text-green-700">{state.url}</p>
             </div>
