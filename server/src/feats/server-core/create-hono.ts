@@ -119,9 +119,7 @@ export function createHonoServer(
     }),
     validator("query", (value, c) => {
       const result = Schema.decodeUnknownEither(Schema.Struct({
-        expire_in_seconds: Schema.optional(
-          Schema.NumberFromString.pipe(Schema.filter((n) => Number.isInteger(n) && n > 0))
-        ),
+        expireInSeconds: Schema.NumberFromString.pipe(Schema.filter((n) => Number.isInteger(n) && n > 0))
       }))(value)
       if (Either.isLeft(result)) {
         return c.json({ error: "Invalid query parameters" }, HttpStatus.BAD_REQUEST)
@@ -130,8 +128,7 @@ export function createHonoServer(
     }),
     async (c) => {
       const { "content-length": declaredSize } = c.req.valid("header")
-      const { expire_in_seconds } = c.req.valid("query")
-      const expireInSeconds = expire_in_seconds ?? 3600
+      const { expireInSeconds } = c.req.valid("query")
 
       /* Begin — declare size from Content-Length header */
       const beginResult = await fileStore.requestUploadBegin({ declaredSize, expireInSeconds })

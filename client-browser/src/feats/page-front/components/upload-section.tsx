@@ -287,7 +287,7 @@ export function UploadSection() {
 function makeUploadShellScript() {
   const baseUrl = VITE_DEFAULT_API_URL
   const script = [
-    `sh -s -- ./yourfilehere <<'SCRIPT'`,
+    `sh -s -- ./YOUR_FILE_HERE <<'SCRIPT'`,
     ``,
     `set -eu`,
     ``,
@@ -305,8 +305,7 @@ function makeUploadShellScript() {
     `KEY=$(openssl rand -hex 32)`,
     `HASH=$(sha256sum "$FILE" | cut -d' ' -f1)`,
     `SIZE=$(stat -c%s "$FILE")`,
-    `EXPIRE_SECONDS="\${2:-900}" # Defaults to 15 minutes (900s) if not provided`,
-    `EXPIRE_TS=$(( $(date +%s) + EXPIRE_SECONDS ))`,
+    `EXPIRE_SECONDS="\${2:-120}" # Defaults to 2 minutes (120s) if not provided`,
     ``,
     `echo "File: $FILE"`,
     `echo "Size: $SIZE bytes"`,
@@ -315,10 +314,10 @@ function makeUploadShellScript() {
     `echo "Expires in: \${EXPIRE_SECONDS}s"`,
     ``,
     `echo`,
-    `echo "--- encrypting & uploading ---"`,
+    `echo "--- Encrypting & Uploading ---"`,
     `set +e`,
     `RESPONSE=$(openssl enc -chacha20 -e -K "$KEY" -iv 00000000000000000000000000000000 -in "$FILE" | \\`,
-    `  curl --fail-with-body -X POST "$API_URL/upload/oneshot?expire_timestamp=$EXPIRE_TS" \\`,
+    `  curl --fail-with-body -X POST "$API_URL/upload/oneshot?expireInSeconds=$EXPIRE_SECONDS" \\`,
     `  -H "Content-Type: application/octet-stream" \\`,
     `  -H "Content-Length: $SIZE" \\`,
     `  --data-binary @-)`,
